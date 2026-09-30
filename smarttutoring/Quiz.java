@@ -43,7 +43,7 @@ public class Quiz {
             System.out.print("Your answer: ");
             String answer = scanner.nextLine();
 
-            // kahit question yung array type, own method ng child class yung mag r-run
+            // kahit question yung array type, own method ng child class yung mag rrun
             if (questions[i].checkAnswer(answer)) {
                 System.out.println("Correct!");
                 correctAnswers++;
