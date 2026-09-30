@@ -19,7 +19,7 @@ public abstract class User {
         return email;
     }
 
-    // Simple comparison lang muna ito kasi console project pa ang system.
+    // simple comparison lang muna nilgay ko rito kasi console project palang yunng system
     public boolean passwordMatches(String enteredPassword) {
         return password.equals(enteredPassword);
     }
