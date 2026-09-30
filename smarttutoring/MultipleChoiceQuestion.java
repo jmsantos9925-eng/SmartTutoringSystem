@@ -21,7 +21,7 @@ public class MultipleChoiceQuestion extends Question {
     public boolean checkAnswer(String answer) {
         String cleanedAnswer = answer.trim();
 
-        // Puwede mag-type ng letter or buong sagot para hindi hassle sa user.
+        // pwede magtype ng letter or buong sagot para hindi hassle sa user
         for (int i = 0; i < choices.length; i++) {
             String letter = String.valueOf((char) ('A' + i));
             if (choices[i].equalsIgnoreCase(getCorrectAnswer())) {
