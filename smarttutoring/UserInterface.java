@@ -347,9 +347,9 @@ public class UserInterface {
             System.out.print(prompt);
             String input = scanner.nextLine();
             try {
-                return Integer.parseInt(input);
+                return Integer.parseInt(input.trim());
             } catch (NumberFormatException e) {
-                System.out.println("Number lang ang ilagay.");
+                System.out.println("Please enter a whole number.");
             }
         }
     }
@@ -359,9 +359,9 @@ public class UserInterface {
             System.out.print(prompt);
             String input = scanner.nextLine();
             try {
-                return Double.parseDouble(input);
+                return Double.parseDouble(input.trim());
             } catch (NumberFormatException e) {
-                System.out.println("Valid number ang kailangan.");
+                System.out.println("Please enter a valid number.");
             }
         }
     }

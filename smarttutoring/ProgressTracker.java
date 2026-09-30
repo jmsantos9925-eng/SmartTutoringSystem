@@ -14,7 +14,7 @@ public class ProgressTracker {
             quizScores[scoreCount] = score;
             scoreCount++;
         } else {
-            System.out.println("Hindi na kasya ang bagong score sa array.");
+            System.out.println("Score storage is full. The new score was not saved.");
         }
     }
 
@@ -32,14 +32,14 @@ public class ProgressTracker {
 
     public String generateFeedback() {
         if (scoreCount == 0) {
-            return "Wala pang quiz score. Try muna ng quiz.";
+            return "No quiz scores yet. Take a quiz first.";
         }
 
         double average = calculateProgress();
         if (average >= 85) {
-            return "Great work! Ready ka na sa mas mahirap na lesson.";
+            return "Great work! You are ready for a more difficult lesson.";
         } else if (average >= 60) {
-            return "Good progress. Practice pa nang kaunti.";
+            return "Good progress. Practice a little more.";
         }
         return "Review the basic lesson and try the quiz again.";
     }

@@ -20,7 +20,7 @@ public class Quiz {
             questions[questionCount] = question;
             questionCount++;
         } else {
-            System.out.println("Maximum of 10 questions lang muna.");
+            System.out.println("A quiz can contain up to 10 questions.");
         }
     }
 
@@ -30,7 +30,7 @@ public class Quiz {
 
     public double startQuiz(Scanner scanner) {
         if (questionCount == 0) {
-            System.out.println("Wala pang questions sa quiz.");
+            System.out.println("This quiz has no questions yet.");
             return 0;
         }
 

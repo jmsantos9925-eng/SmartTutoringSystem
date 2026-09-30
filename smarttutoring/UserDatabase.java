@@ -11,11 +11,11 @@ public class UserDatabase {
 
     public void addUser(User user) throws DuplicateEmailException {
         if (emailExists(user.getEmail())) {
-            throw new DuplicateEmailException("Registered na ang email na ito.");
+            throw new DuplicateEmailException("This email is already registered.");
         }
 
         if (userCount >= users.length) {
-            throw new IllegalStateException("Puno na ang user storage.");
+            throw new IllegalStateException("User storage is full.");
         }
 
         // here ilalagay yung object sa next available na part ng array
@@ -40,7 +40,7 @@ public class UserDatabase {
         User foundUser = findUserByEmail(email);
 
         if (foundUser == null || !foundUser.passwordMatches(password)) {
-            throw new InvalidLoginException("Mali ang email o password.");
+            throw new InvalidLoginException("Incorrect email or password.");
         }
         return foundUser;
     }
