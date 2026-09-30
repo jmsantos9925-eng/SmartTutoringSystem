@@ -18,7 +18,7 @@ public class UserDatabase {
             throw new IllegalStateException("Puno na ang user storage.");
         }
 
-        // Dito nilalagay ang object sa next available na part ng array.
+        // here ilalagay yung object sa next available na part ng array
         users[userCount] = user;
         userCount++;
     }
@@ -56,7 +56,7 @@ public class UserDatabase {
     public boolean removeUserByEmail(String email) {
         for (int i = 0; i < userCount; i++) {
             if (users[i].getEmail().equalsIgnoreCase(email)) {
-                // Inaakyat ang remaining users para walang empty space sa gitna.
+                // aakyat nya yung remaining users para walang empty space sa gitna
                 for (int j = i; j < userCount - 1; j++) {
                     users[j] = users[j + 1];
                 }
