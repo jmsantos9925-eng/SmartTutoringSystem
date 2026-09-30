@@ -42,7 +42,7 @@ public class Student extends User {
             suggestedLevel = 2;
         }
 
-        // Fixed rules lang muna: subject, format at quiz average ang basehan.
+        // fixed rules lang muna rito: subject, format at quiz average yung basis
         for (Lesson lesson : lessons) {
             if (lesson != null
                     && lesson.getSubject().equalsIgnoreCase(preferredSubject)
