@@ -87,7 +87,7 @@ public class UserInterface {
             userDatabase.addUser(newUser);
             System.out.println("Account created for " + newUser.getRole() + ".");
         } catch (DuplicateEmailException e) {
-            // Ito ang custom exception kapag may kaparehong email.
+            // eto yung custom exception kapag may same email
             System.out.println("Sign-up error: " + e.getMessage());
         } catch (IllegalStateException e) {
             System.out.println("Storage error: " + e.getMessage());
@@ -390,7 +390,7 @@ public class UserInterface {
         quizzes[quizCount++] = sampleQuiz;
 
         try {
-            // May demo accounts para mabilis ma-test sa presentation.
+            // mga demo accs para mabilis natin matest sa presentation
             userDatabase.addUser(new Tutor("Demo Tutor", "tutor@sts.com", "tutor123"));
             userDatabase.addUser(new Admin("Demo Admin", "admin@sts.com", "admin123"));
         } catch (DuplicateEmailException e) {
