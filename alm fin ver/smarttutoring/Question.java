@@ -15,7 +15,7 @@ public abstract class Question {
         return correctAnswer;
     }
 
-    // Magkaiba ang display at checking depende sa actual question type.
+    // Iba yung display and checking depende sa actual question type.
     public abstract void displayQuestion();
 
     public abstract boolean checkAnswer(String answer);
