@@ -1,5 +1,3 @@
-package smarttutoring;
-
 public class TrueFalseQuestion extends Question {
     public TrueFalseQuestion(String questionText, String correctAnswer) {
         super(questionText, correctAnswer);

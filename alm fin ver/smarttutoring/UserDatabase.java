@@ -1,5 +1,3 @@
-package smarttutoring;
-
 public class UserDatabase {
     private User[] users;
     private int userCount;

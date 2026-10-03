@@ -1,5 +1,3 @@
-package smarttutoring;
-
 public class Lesson {
     private String lessonTitle;
     private String subject;

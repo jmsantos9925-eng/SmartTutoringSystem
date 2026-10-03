@@ -1,5 +1,3 @@
-package smarttutoring;
-
 public class MultipleChoiceQuestion extends Question {
     private String[] choices;
 

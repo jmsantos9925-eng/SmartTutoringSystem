@@ -1,5 +1,3 @@
-package smarttutoring;
-
 public abstract class Question {
     private String questionText;
     private String correctAnswer;

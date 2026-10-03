@@ -1,5 +1,3 @@
-package smarttutoring;
-
 public class Admin extends Staff {
     public Admin(String fullName, String email, String password) {
         super(fullName, email, password);

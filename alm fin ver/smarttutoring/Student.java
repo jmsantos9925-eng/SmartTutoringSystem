@@ -1,5 +1,3 @@
-package smarttutoring;
-
 import java.util.Scanner;
 
 public class Student extends User {

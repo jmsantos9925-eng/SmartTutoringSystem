@@ -1,5 +1,3 @@
-package smarttutoring;
-
 public class ProgressTracker {
     private double[] quizScores;
     private int scoreCount;

@@ -1,5 +1,3 @@
-package smarttutoring;
-
 public abstract class User {
     private String fullName;
     private String email;

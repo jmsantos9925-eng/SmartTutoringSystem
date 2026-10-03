@@ -1,5 +1,3 @@
-package smarttutoring;
-
 public class Tutor extends Staff {
     public Tutor(String fullName, String email, String password) {
         super(fullName, email, password);
