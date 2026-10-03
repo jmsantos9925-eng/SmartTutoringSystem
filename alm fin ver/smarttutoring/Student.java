@@ -34,7 +34,7 @@ public class Student extends User {
 
         int suggestedLevel = getSuggestedLevel();
 
-        // Fixed rules lang: subject, learning style, at quiz average ang basis.
+        // Fixed rules to - subject, learning style, and yung quiz average yung basis nya
         for (Lesson lesson : lessons) {
             if (lesson != null
                     && lesson.getSubject().equalsIgnoreCase(preferredSubject)
