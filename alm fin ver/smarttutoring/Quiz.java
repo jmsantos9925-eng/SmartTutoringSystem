@@ -45,7 +45,7 @@ public class Quiz {
             System.out.print("Your answer: ");
             String answer = scanner.nextLine();
 
-            // Question ang array type pero child class method ang tumatakbo.
+            // Array type yung question pero child class method yung nag rrun
             if (questions[i].checkAnswer(answer)) {
                 System.out.println("Correct!");
                 correctAnswers++;
