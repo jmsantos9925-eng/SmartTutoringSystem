@@ -22,7 +22,7 @@ public class MultipleChoiceQuestion extends Question {
     public boolean checkAnswer(String answer) {
         String cleanedAnswer = answer.trim();
 
-        // Puwedeng letter o buong sagot ang ilagay ng student.
+        // Quiz ang naglilimita sa A-D; dito kinukumpara ang sagot sa tamang choice.
         for (int i = 0; i < choices.length; i++) {
             String letter = String.valueOf((char) ('A' + i));
             boolean isCorrectChoice = letter.equalsIgnoreCase(getCorrectAnswer())

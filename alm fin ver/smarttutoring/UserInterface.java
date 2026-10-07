@@ -24,14 +24,14 @@ public class UserInterface {
     public void start() {
         boolean running = true;
 
-        System.out.println("=================================");
-        System.out.println("     SMART TUTORING SYSTEM");
-        System.out.println("=================================");
+        printWelcomeScreen();
 
         while (running) {
-            System.out.println("\n1. Sign Up");
+            printHeader("MAIN MENU");
+            System.out.println("1. Sign Up");
             System.out.println("2. Login");
             System.out.println("3. Exit");
+            printLine();
             int choice = readInt("Choose: ");
 
             switch (choice) {
@@ -43,7 +43,8 @@ public class UserInterface {
                     break;
                 case 3:
                     running = false;
-                    System.out.println("Thank you for using STS.");
+                    printHeader("GOODBYE");
+                    System.out.println("Thank you for using the Smart Tutoring System.");
                     break;
                 default:
                     System.out.println("Please choose 1 to 3 only.");
@@ -54,11 +55,13 @@ public class UserInterface {
     }
 
     public void signUp() {
-        System.out.println("\n--- Sign Up ---");
+        printHeader("SIGN UP");
         String fullName = readRequired("Full name: ");
         String email = readEmail("Email: ");
         String password = readRequired("Password: ");
 
+        System.out.println("\nChoose your role");
+        printLine();
         System.out.println("1. Student");
         System.out.println("2. Tutor");
         System.out.println("3. Admin");
@@ -78,9 +81,9 @@ public class UserInterface {
 
         try {
             userDatabase.addUser(newUser);
-            System.out.println("Account created for " + newUser.getRole() + ".");
+            printSuccess("Account created for " + newUser.getRole() + ".");
         } catch (DuplicateEmailException e) {
-            // Custom exception ito kapag may kaparehong email.
+            // Custom exception to kapag may kaparehong email.
             System.out.println("Sign-up error: " + e.getMessage());
         } catch (IllegalStateException e) {
             System.out.println("Storage error: " + e.getMessage());
@@ -88,13 +91,13 @@ public class UserInterface {
     }
 
     public void login() {
-        System.out.println("\n--- Login ---");
+        printHeader("LOGIN");
         String email = readRequired("Email: ");
         String password = readRequired("Password: ");
 
         try {
             currentUser = userDatabase.authenticate(email, password);
-            System.out.println("Welcome, " + currentUser.getFullName() + "!");
+            printSuccess("Welcome, " + currentUser.getFullName() + "!");
             showDashboard();
         } catch (InvalidLoginException e) {
             System.out.println("Login error: " + e.getMessage());
@@ -103,7 +106,7 @@ public class UserInterface {
 
     public void logout() {
         currentUser = null;
-        System.out.println("Logged out successfully.");
+        printSuccess("Logged out successfully.");
     }
 
     public void showDashboard() {
@@ -120,7 +123,9 @@ public class UserInterface {
         boolean insideMenu = true;
 
         while (insideMenu) {
-            System.out.println("\n--- Student Menu ---");
+            printHeader("STUDENT MENU");
+            System.out.println("Logged in as: " + student.getFullName());
+            printLine();
             System.out.println("1. View lessons");
             System.out.println("2. Recommended lesson");
             System.out.println("3. Take quiz");
@@ -128,6 +133,7 @@ public class UserInterface {
             System.out.println("5. Change learning style");
             System.out.println("6. Update profile");
             System.out.println("7. Logout");
+            printLine();
             int choice = readInt("Choose: ");
 
             switch (choice) {
@@ -138,8 +144,9 @@ public class UserInterface {
                     String preferredSubject = readRequired("Preferred subject: ");
                     Lesson suggested = student.recommendLessons(getActiveLessons(), preferredSubject);
                     if (suggested == null) {
-                        System.out.println("No lesson available.");
+                        System.out.println("No matching lesson available for this subject.");
                     } else {
+                        printHeader("RECOMMENDED LESSON");
                         System.out.println("Recommended: " + suggested.getLessonTitle());
                         suggested.displayLesson();
                     }
@@ -152,7 +159,7 @@ public class UserInterface {
                     break;
                 case 5:
                     student.setLearningStyle(selectLearningStyle());
-                    System.out.println("Learning style updated.");
+                    printSuccess("Learning style updated.");
                     break;
                 case 6:
                     updateCurrentProfile();
@@ -171,13 +178,16 @@ public class UserInterface {
         boolean insideMenu = true;
 
         while (insideMenu) {
-            System.out.println("\n--- Tutor Menu ---");
+            printHeader("TUTOR MENU");
+            System.out.println("Logged in as: " + tutor.getFullName());
+            printLine();
             System.out.println("1. View lessons");
             System.out.println("2. Create lesson");
             System.out.println("3. View quizzes");
             System.out.println("4. Create quiz");
             System.out.println("5. Update profile");
             System.out.println("6. Logout");
+            printLine();
             int choice = readInt("Choose: ");
 
             if (choice == 1) {
@@ -203,11 +213,14 @@ public class UserInterface {
         boolean insideMenu = true;
 
         while (insideMenu) {
-            System.out.println("\n--- Admin Menu ---");
+            printHeader("ADMIN MENU");
+            System.out.println("Logged in as: " + admin.getFullName());
+            printLine();
             System.out.println("1. View user accounts");
             System.out.println("2. Remove a user account");
             System.out.println("3. Update profile");
             System.out.println("4. Logout");
+            printLine();
             int choice = readInt("Choose: ");
 
             if (choice == 1) {
@@ -260,7 +273,7 @@ public class UserInterface {
     }
 
     private void listLessons() {
-        System.out.println("\n--- Lessons ---");
+        printHeader("AVAILABLE LESSONS");
         if (lessonCount == 0) {
             System.out.println("No lessons yet.");
             return;
@@ -273,7 +286,7 @@ public class UserInterface {
     }
 
     private void listQuizzes() {
-        System.out.println("\n--- Quizzes ---");
+        printHeader("AVAILABLE QUIZZES");
         if (quizCount == 0) {
             System.out.println("No quizzes yet.");
             return;
@@ -281,7 +294,7 @@ public class UserInterface {
         for (int i = 0; i < quizCount; i++) {
             System.out.println((i + 1) + ". " + quizzes[i].getQuizTitle()
                     + " | " + quizzes[i].getQuestionCount() + " questions"
-                    + " | Passing: " + String.format("%.0f", quizzes[i].getPassingScore()) + "%");
+                    + " | Passing: " + String.format("%.2f", quizzes[i].getPassingScore()) + "%");
         }
     }
 
@@ -291,6 +304,7 @@ public class UserInterface {
             return;
         }
 
+        printHeader("CREATE LESSON");
         String title = readRequired("Lesson title: ");
         String subject = readRequired("Subject: ");
         int difficulty = readIntInRange("Difficulty (1 to 3): ", 1, 3);
@@ -300,7 +314,7 @@ public class UserInterface {
         Lesson lesson = tutor.createLesson(title, subject, difficulty, content, format);
         lessons[lessonCount] = lesson;
         lessonCount++;
-        System.out.println("Lesson created.");
+        printSuccess("Lesson created.");
     }
 
     private void createQuizFromInput(Tutor tutor) {
@@ -309,6 +323,7 @@ public class UserInterface {
             return;
         }
 
+        printHeader("CREATE QUIZ");
         String title = readRequired("Quiz title: ");
         double passing = readDoubleInRange("Passing score (0 to 100): ", 0, 100);
         Quiz quiz = tutor.createQuiz(title, passing);
@@ -316,12 +331,13 @@ public class UserInterface {
         int totalQuestions = readIntInRange("Number of questions (1 to 10): ", 1, 10);
         for (int questionNumber = 1; questionNumber <= totalQuestions; questionNumber++) {
             System.out.println("\nQuestion " + questionNumber + " type");
+            printLine();
             System.out.println("1. Multiple Choice");
             System.out.println("2. True or False");
             int type = readIntInRange("Choose: ", 1, 2);
 
             if (type == 1) {
-                String questionText = readRequired("Question: ");
+                String questionText = readRequired("\nQuestion: ");
                 String[] choices = new String[4];
                 for (int i = 0; i < choices.length; i++) {
                     choices[i] = readRequired("Choice " + (char) ('A' + i) + ": ");
@@ -346,7 +362,7 @@ public class UserInterface {
     }
 
     private void updateCurrentProfile() {
-        System.out.println("\n--- Update Profile ---");
+        printHeader("UPDATE PROFILE");
         String newName = readRequired("New full name: ");
         String newEmail = readEmail("New email: ");
 
@@ -357,10 +373,12 @@ public class UserInterface {
         }
 
         currentUser.updateProfile(newName, newEmail);
-        System.out.println("Profile updated.");
+        printSuccess("Profile updated.");
     }
 
     private String selectLearningStyle() {
+        System.out.println("\nSelect learning style or lesson format");
+        printLine();
         System.out.println("1. Text");
         System.out.println("2. Video");
         System.out.println("3. Practice");
@@ -491,14 +509,38 @@ public class UserInterface {
         quizzes[quizCount++] = sampleQuiz;
 
         try {
-            // Demo accounts para mabilis ma-test ang tatlong role sa presentation.
+            // Demo accounts para madaling ma-test ang tatlong role sa presentation.
             userDatabase.addUser(new Student(
-                    "Demo Student", "student@sts.com", "student123", "Practice"));
-            userDatabase.addUser(new Tutor("Demo Tutor", "tutor@sts.com", "tutor123"));
-            userDatabase.addUser(new Admin("Demo Admin", "admin@sts.com", "admin123"));
+                    "Demo Student", "student@hau.edu.ph", "student123", "Practice"));
+            userDatabase.addUser(new Tutor("Demo Tutor", "tutor@hau.edu.ph", "tutor123"));
+            userDatabase.addUser(new Admin("Demo Admin", "admin@hau.edu.ph", "admin123"));
         } catch (DuplicateEmailException e) {
             System.out.println("Sample account error: " + e.getMessage());
         }
+    }
+
+    // Simple helpers para pare-pareho ang spacing yung headers sa console.
+    private void printWelcomeScreen() {
+        System.out.println();
+        System.out.println("=======================================================");
+        System.out.println("                 SMART TUTORING SYSTEM");
+        System.out.println("=======================================================");
+        System.out.println("        Learn, practice, and track your progress");
+    }
+
+    private void printHeader(String title) {
+        System.out.println();
+        System.out.println("=======================================================");
+        System.out.println(" " + title);
+        System.out.println("=======================================================");
+    }
+
+    private void printLine() {
+        System.out.println("-------------------------------------------------------");
+    }
+
+    private void printSuccess(String message) {
+        System.out.println("\n[Success] " + message);
     }
 }
 

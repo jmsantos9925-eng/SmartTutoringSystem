@@ -48,7 +48,9 @@ public class ProgressTracker {
     }
 
     public void displayProgress() {
-        System.out.println("\n--- Progress ---");
+        System.out.println("\n=======================================================");
+        System.out.println(" STUDENT PROGRESS");
+        System.out.println("=======================================================");
         if (scoreCount == 0) {
             System.out.println("No recorded score yet.");
         } else {
@@ -57,7 +59,9 @@ public class ProgressTracker {
             }
             System.out.println("Average: " + String.format("%.2f", calculateProgress()) + "%");
         }
+        System.out.println("-------------------------------------------------------");
         System.out.println("Feedback: " + generateFeedback());
+        System.out.println("-------------------------------------------------------");
     }
 
     public int getScoreCount() {

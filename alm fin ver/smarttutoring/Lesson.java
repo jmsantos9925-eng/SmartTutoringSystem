@@ -15,11 +15,15 @@ public class Lesson {
     }
 
     public void displayLesson() {
-        System.out.println("\n--- " + lessonTitle + " ---");
+        System.out.println("\n=======================================================");
+        System.out.println(" LESSON: " + lessonTitle);
+        System.out.println("=======================================================");
         System.out.println("Subject: " + subject);
         System.out.println("Difficulty: " + difficultyLevel);
         System.out.println("Format: " + lessonFormat);
+        System.out.println("-------------------------------------------------------");
         System.out.println(lessonContent);
+        System.out.println("-------------------------------------------------------");
     }
 
     public String getLessonTitle() {

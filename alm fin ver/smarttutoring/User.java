@@ -17,7 +17,7 @@ public abstract class User {
         return email;
     }
 
-    // Eto simpleng comparison lang muna dahil console project lang naman and walang encryted storage
+    // Simple comparison muna kasi console project lang naman and wala pang encrypted storage.
     public boolean passwordMatches(String enteredPassword) {
         return password.equals(enteredPassword);
     }
@@ -27,7 +27,7 @@ public abstract class User {
         email = newEmail.trim();
     }
 
-    // Bale dito bawat child class yung magbibigay ng sarili nilang role
+    // bawat child class yung magbibigay ng sarili nyang role.
     public abstract String getRole();
 }
 

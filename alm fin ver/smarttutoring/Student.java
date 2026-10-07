@@ -67,11 +67,7 @@ public class Student extends User {
             }
         }
 
-        for (Lesson lesson : lessons) {
-            if (lesson != null) {
-                return lesson;
-            }
-        }
+        // Walang match sa subject, kaya walang unrelated na lesson na ibabalik.
         return null;
     }
 
@@ -81,7 +77,8 @@ public class Student extends User {
             return;
         }
 
-        double score = quiz.startQuiz(scanner);
+        // Ipadala ang pangalan para kasama sa quiz result.
+        double score = quiz.startQuiz(scanner, getFullName());
         progressTracker.recordScore(score);
     }
 
@@ -103,4 +100,3 @@ public class Student extends User {
         return 1;
     }
 }
-

@@ -10,7 +10,9 @@ public class Admin extends Staff {
 
     public void manageUser(UserDatabase database) {
         User[] users = database.getUsers();
-        System.out.println("\n--- Registered Users ---");
+        System.out.println("\n=======================================================");
+        System.out.println(" REGISTERED USER ACCOUNTS");
+        System.out.println("=======================================================");
 
         if (users.length == 0) {
             System.out.println("No registered users.");
@@ -22,6 +24,7 @@ public class Admin extends Staff {
                     + " | " + users[i].getRole()
                     + " | " + users[i].getEmail());
         }
+        System.out.println("-------------------------------------------------------");
     }
 
     public void removeUser(UserDatabase database, String email) {

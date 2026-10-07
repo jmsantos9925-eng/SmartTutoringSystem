@@ -27,25 +27,60 @@ public class Quiz {
     }
 
     public void generateQuiz() {
-        System.out.println("Quiz ready: " + quizTitle + " with " + questionCount + " questions.");
+        System.out.println("\n[Success] Quiz ready: " + quizTitle
+                + " with " + questionCount + " questions.");
     }
 
-    public double startQuiz(Scanner scanner) {
+    public double startQuiz(Scanner scanner, String studentName) {
         if (questionCount == 0) {
             System.out.println("This quiz has no questions yet.");
             return 0;
         }
 
         int correctAnswers = 0;
-        System.out.println("\n=== " + quizTitle + " ===");
+        System.out.println("\n=======================================================");
+        System.out.println(" QUIZ: " + quizTitle);
+        System.out.println("=======================================================");
 
         for (int i = 0; i < questionCount; i++) {
             System.out.println("\nQuestion " + (i + 1));
+            System.out.println("-------------------------------------------------------");
             questions[i].displayQuestion();
-            System.out.print("Your answer: ");
-            String answer = scanner.nextLine();
+            if (questions[i] instanceof MultipleChoiceQuestion) {
+                System.out.println("Enter A, B, C, or D.");
+            } else if (questions[i] instanceof TrueFalseQuestion) {
+                System.out.println("Enter A/B or True/False.");
+            }
 
-            // Array type yung question pero child class method yung nag rrun
+            String answer = "";
+            boolean valid = false;
+
+            // Ulitin ang tanong kapag hindi valid ang input.
+            while (!valid) {
+                System.out.print("Your answer: ");
+                answer = scanner.nextLine().trim();
+
+                // Letters lang ang sagot sa multiple choice.
+                if (questions[i] instanceof MultipleChoiceQuestion) {
+                    if (answer.equalsIgnoreCase("A") || answer.equalsIgnoreCase("B") || 
+                        answer.equalsIgnoreCase("C") || answer.equalsIgnoreCase("D")) {
+                        valid = true;
+                    } else {
+                        System.out.println("Please enter A, B, C, or D.");
+                    }
+                // Dapat pareho ang allowed input at answer checking.
+                } else if (questions[i] instanceof TrueFalseQuestion) {
+                    if (answer.equalsIgnoreCase("True") || answer.equalsIgnoreCase("False") ||
+                        answer.equalsIgnoreCase("A") || answer.equalsIgnoreCase("B")) {
+                        valid = true;
+                    } else {
+                        System.out.println("Please enter A/B or True/False.");
+                    }
+                } else {
+                    valid = true;
+                }
+            }
+
             if (questions[i].checkAnswer(answer)) {
                 System.out.println("Correct!");
                 correctAnswers++;
@@ -55,8 +90,12 @@ public class Quiz {
         }
 
         double score = calculateScore(correctAnswers);
-        System.out.println("\nScore: " + String.format("%.2f", score) + "%");
+        System.out.println("\n-------------------------------------------------------");
+        // Ipakita ang pangalan ng student kasama ang result.
+        System.out.println("Here are the results from the quiz, " + studentName);
+        System.out.println("Score: " + String.format("%.2f", score) + "%");
         System.out.println(isPassed(score) ? "Result: Passed" : "Result: Try again");
+        System.out.println("=======================================================");
         return score;
     }
 
@@ -83,4 +122,3 @@ public class Quiz {
         return passingScore;
     }
 }
-
