@@ -55,12 +55,12 @@ public class Quiz {
             String answer = "";
             boolean valid = false;
 
-            // Ulitin ang tanong kapag hindi valid ang input.
+            // repeat yung question kapag hindi valid ang input
             while (!valid) {
                 System.out.print("Your answer: ");
                 answer = scanner.nextLine().trim();
 
-                // Letters lang ang sagot sa multiple choice.
+                // letters lang pwedeng sagot sa multiple choice.
                 if (questions[i] instanceof MultipleChoiceQuestion) {
                     if (answer.equalsIgnoreCase("A") || answer.equalsIgnoreCase("B") ||
                         answer.equalsIgnoreCase("C") || answer.equalsIgnoreCase("D")) {
@@ -68,7 +68,7 @@ public class Quiz {
                     } else {
                         System.out.println("Please enter A, B, C, or D.");
                     }
-                // Dapat pareho ang allowed input at answer checking.
+                // Dapat both ang allowed sa input at answer checking.
                 } else if (questions[i] instanceof TrueFalseQuestion) {
                     if (answer.equalsIgnoreCase("True") || answer.equalsIgnoreCase("False") ||
                         answer.equalsIgnoreCase("A") || answer.equalsIgnoreCase("B")) {
@@ -91,7 +91,7 @@ public class Quiz {
 
         double score = calculateScore(correctAnswers);
         System.out.println("\n-------------------------------------------------------");
-        // Ipakita ang pangalan ng student kasama ang result.
+        // sshow yung pangalan ng students and result
         System.out.println("Here are the results from the quiz, " + studentName);
         System.out.println("Score: " + String.format("%.2f", score) + "%");
         System.out.println(isPassed(score) ? "Result: Passed" : "Result: Try again");

@@ -77,7 +77,7 @@ public class Student extends User {
             return;
         }
 
-        // Ipadala ang pangalan para kasama sa quiz result.
+        // bibigay yung name para kasama sa quiz result.
         double score = quiz.startQuiz(scanner, getFullName());
         progressTracker.recordScore(score);
     }

@@ -509,7 +509,7 @@ public class UserInterface {
         quizzes[quizCount++] = sampleQuiz;
 
         try {
-            // Demo accounts para madaling ma-test ang tatlong role sa presentation.
+            // Demo accounts para madaling ma-test yung tatlong role sa presentation.
             userDatabase.addUser(new Student(
                     "Demo Student", "student@hau.edu.ph", "student123", "Practice"));
             userDatabase.addUser(new Tutor("Demo Tutor", "tutor@hau.edu.ph", "tutor123"));
