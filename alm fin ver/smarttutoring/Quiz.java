@@ -62,7 +62,7 @@ public class Quiz {
 
                 // Letters lang ang sagot sa multiple choice.
                 if (questions[i] instanceof MultipleChoiceQuestion) {
-                    if (answer.equalsIgnoreCase("A") || answer.equalsIgnoreCase("B") || 
+                    if (answer.equalsIgnoreCase("A") || answer.equalsIgnoreCase("B") ||
                         answer.equalsIgnoreCase("C") || answer.equalsIgnoreCase("D")) {
                         valid = true;
                     } else {
