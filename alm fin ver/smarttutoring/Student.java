@@ -80,6 +80,7 @@ public class Student extends User {
         // bibigay yung name para kasama sa quiz result.
         double score = quiz.startQuiz(scanner, getFullName());
         progressTracker.recordScore(score);
+        System.out.println("Feedback: " + progressTracker.generateFeedback());
     }
 
     public void viewProgress() {

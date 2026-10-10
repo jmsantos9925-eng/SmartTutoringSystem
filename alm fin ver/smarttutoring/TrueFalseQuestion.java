@@ -8,6 +8,7 @@ public class TrueFalseQuestion extends Question {
         System.out.println(getQuestionText());
         System.out.println("A. True");
         System.out.println("B. False");
+        System.out.println("Enter A/B or True/False.");
     }
 
     @Override
@@ -20,6 +21,18 @@ public class TrueFalseQuestion extends Question {
         }
 
         return cleaned.equalsIgnoreCase(getCorrectAnswer());
+    }
+
+    @Override
+    public boolean isValidAnswer(String answer) {
+        String cleaned = answer.trim();
+        return cleaned.equalsIgnoreCase("A") || cleaned.equalsIgnoreCase("B")
+                || cleaned.equalsIgnoreCase("True") || cleaned.equalsIgnoreCase("False");
+    }
+
+    @Override
+    public String getCorrectAnswerDisplay() {
+        return getCorrectAnswer();
     }
 }
 

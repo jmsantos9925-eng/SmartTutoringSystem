@@ -51,6 +51,16 @@ public class UserDatabase {
         return foundUser;
     }
 
+    // Dito chine-check yung duplicate email bago baguhin ang profile.
+    public void updateUserProfile(User user, String newName, String newEmail)
+            throws DuplicateEmailException {
+        User existing = findUserByEmail(newEmail.trim());
+        if (existing != null && existing != user) {
+            throw new DuplicateEmailException("This email is already registered.");
+        }
+        user.updateProfile(newName, newEmail);
+    }
+
     public User[] getUsers() {
         User[] activeUsers = new User[userCount];
         for (int i = 0; i < userCount; i++) {

@@ -19,5 +19,10 @@ public abstract class Question {
     public abstract void displayQuestion();
 
     public abstract boolean checkAnswer(String answer);
+
+    // Bawat question type ang magche-check kung allowed yung input.
+    public abstract boolean isValidAnswer(String answer);
+
+    public abstract String getCorrectAnswerDisplay();
 }
 

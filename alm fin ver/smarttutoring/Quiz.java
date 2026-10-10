@@ -43,14 +43,9 @@ public class Quiz {
         System.out.println("=======================================================");
 
         for (int i = 0; i < questionCount; i++) {
-            System.out.println("\nQuestion " + (i + 1));
+            System.out.println("\nQuestion " + (i + 1) + " of " + questionCount);
             System.out.println("-------------------------------------------------------");
             questions[i].displayQuestion();
-            if (questions[i] instanceof MultipleChoiceQuestion) {
-                System.out.println("Enter A, B, C, or D.");
-            } else if (questions[i] instanceof TrueFalseQuestion) {
-                System.out.println("Enter A/B or True/False.");
-            }
 
             String answer = "";
             boolean valid = false;
@@ -60,24 +55,11 @@ public class Quiz {
                 System.out.print("Your answer: ");
                 answer = scanner.nextLine().trim();
 
-                // letters lang pwedeng sagot sa multiple choice.
-                if (questions[i] instanceof MultipleChoiceQuestion) {
-                    if (answer.equalsIgnoreCase("A") || answer.equalsIgnoreCase("B") ||
-                        answer.equalsIgnoreCase("C") || answer.equalsIgnoreCase("D")) {
-                        valid = true;
-                    } else {
-                        System.out.println("Please enter A, B, C, or D.");
-                    }
-                // Dapat both ang allowed sa input at answer checking.
-                } else if (questions[i] instanceof TrueFalseQuestion) {
-                    if (answer.equalsIgnoreCase("True") || answer.equalsIgnoreCase("False") ||
-                        answer.equalsIgnoreCase("A") || answer.equalsIgnoreCase("B")) {
-                        valid = true;
-                    } else {
-                        System.out.println("Please enter A/B or True/False.");
-                    }
-                } else {
+                // Actual question object ang magche-check ng input, polymorphism din ito.
+                if (questions[i].isValidAnswer(answer)) {
                     valid = true;
+                } else {
+                    System.out.println("Please use one of the answer formats shown above.");
                 }
             }
 
@@ -85,7 +67,7 @@ public class Quiz {
                 System.out.println("Correct!");
                 correctAnswers++;
             } else {
-                System.out.println("Incorrect.");
+                System.out.println("Incorrect. Correct answer: " + questions[i].getCorrectAnswerDisplay());
             }
         }
 
@@ -93,6 +75,7 @@ public class Quiz {
         System.out.println("\n-------------------------------------------------------");
         // sshow yung pangalan ng students and result
         System.out.println("Here are the results from the quiz, " + studentName);
+        System.out.println("Correct answers: " + correctAnswers + " of " + questionCount);
         System.out.println("Score: " + String.format("%.2f", score) + "%");
         System.out.println(isPassed(score) ? "Result: Passed" : "Result: Try again");
         System.out.println("=======================================================");

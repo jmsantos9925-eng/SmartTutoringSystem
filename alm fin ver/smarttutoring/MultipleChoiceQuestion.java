@@ -16,13 +16,14 @@ public class MultipleChoiceQuestion extends Question {
             char letter = (char) ('A' + i);
             System.out.println(letter + ". " + choices[i]);
         }
+        System.out.println("Enter A, B, C, or D.");
     }
 
     @Override
     public boolean checkAnswer(String answer) {
         String cleanedAnswer = answer.trim();
 
-        // Quiz ang naglilimit sa A-D and dito kino compare yung sagot sa tamang choice.
+        // Letters lang ang allowed at dito kino compare sa tamang choice.
         for (int i = 0; i < choices.length; i++) {
             String letter = String.valueOf((char) ('A' + i));
             boolean isCorrectChoice = letter.equalsIgnoreCase(getCorrectAnswer())
@@ -34,6 +35,25 @@ public class MultipleChoiceQuestion extends Question {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean isValidAnswer(String answer) {
+        String cleaned = answer.trim();
+        return cleaned.length() == 1 && Character.toUpperCase(cleaned.charAt(0)) >= 'A'
+                && Character.toUpperCase(cleaned.charAt(0)) < 'A' + choices.length;
+    }
+
+    @Override
+    public String getCorrectAnswerDisplay() {
+        for (int i = 0; i < choices.length; i++) {
+            String letter = String.valueOf((char) ('A' + i));
+            if (letter.equalsIgnoreCase(getCorrectAnswer())
+                    || choices[i].equalsIgnoreCase(getCorrectAnswer())) {
+                return letter + ". " + choices[i];
+            }
+        }
+        return getCorrectAnswer();
     }
 }
 

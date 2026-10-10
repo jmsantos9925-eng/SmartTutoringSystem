@@ -1,3 +1,4 @@
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -26,32 +27,37 @@ public class UserInterface {
 
         printWelcomeScreen();
 
-        while (running) {
-            printHeader("MAIN MENU");
-            System.out.println("1. Sign Up");
-            System.out.println("2. Login");
-            System.out.println("3. Exit");
-            printLine();
-            int choice = readInt("Choose: ");
+        try {
+            while (running) {
+                printHeader("MAIN MENU");
+                System.out.println("1. Sign Up");
+                System.out.println("2. Login");
+                System.out.println("3. Exit");
+                printLine();
+                int choice = readInt("Choose: ");
 
-            switch (choice) {
-                case 1:
-                    signUp();
-                    break;
-                case 2:
-                    login();
-                    break;
-                case 3:
-                    running = false;
-                    printHeader("GOODBYE");
-                    System.out.println("Thank you for using the Smart Tutoring System.");
-                    break;
-                default:
-                    System.out.println("Please choose 1 to 3 only.");
+                switch (choice) {
+                    case 1:
+                        signUp();
+                        break;
+                    case 2:
+                        login();
+                        break;
+                    case 3:
+                        running = false;
+                        printHeader("GOODBYE");
+                        System.out.println("Thank you for using the Smart Tutoring System.");
+                        break;
+                    default:
+                        System.out.println("Please choose 1 to 3 only.");
+                }
             }
+        } catch (NoSuchElementException e) {
+            // Kapag sarado na yung input, lalabas nang maayos ang program.
+            System.out.println("\nInput closed. Exiting the program.");
+        } finally {
+            scanner.close();
         }
-
-        scanner.close();
     }
 
     public void signUp() {
@@ -141,21 +147,14 @@ public class UserInterface {
                     openLesson();
                     break;
                 case 2:
-                    String preferredSubject = readRequired("Preferred subject: ");
-                    Lesson suggested = student.recommendLessons(getActiveLessons(), preferredSubject);
-                    if (suggested == null) {
-                        System.out.println("No matching lesson available for this subject.");
-                    } else {
-                        printHeader("RECOMMENDED LESSON");
-                        System.out.println("Recommended: " + suggested.getLessonTitle());
-                        suggested.displayLesson();
-                    }
+                    recommendLesson(student);
                     break;
                 case 3:
                     openQuiz(student);
                     break;
                 case 4:
                     student.viewProgress();
+                    pause();
                     break;
                 case 5:
                     student.setLearningStyle(selectLearningStyle());
@@ -192,10 +191,12 @@ public class UserInterface {
 
             if (choice == 1) {
                 listLessons();
+                pause();
             } else if (choice == 2) {
                 createLessonFromInput(tutor);
             } else if (choice == 3) {
                 listQuizzes();
+                pause();
             } else if (choice == 4) {
                 createQuizFromInput(tutor);
             } else if (choice == 5) {
@@ -225,13 +226,17 @@ public class UserInterface {
 
             if (choice == 1) {
                 admin.manageUser(userDatabase);
+                pause();
             } else if (choice == 2) {
-                System.out.print("Email to remove: ");
-                String email = scanner.nextLine().trim();
+                String email = readRequired("Email to remove: ");
                 if (email.equalsIgnoreCase(admin.getEmail())) {
                     System.out.println("You cannot remove your account while logged in.");
-                } else {
+                } else if (!userDatabase.emailExists(email)) {
+                    System.out.println("User account not found.");
+                } else if (readYesNo("Remove the account " + email + "?")) {
                     admin.removeUser(userDatabase, email);
+                } else {
+                    System.out.println("Removal cancelled.");
                 }
             } else if (choice == 3) {
                 updateCurrentProfile();
@@ -253,6 +258,7 @@ public class UserInterface {
         int number = readInt("Lesson number: ");
         if (number >= 1 && number <= lessonCount) {
             lessons[number - 1].displayLesson();
+            pause();
         } else {
             System.out.println("Invalid lesson number.");
         }
@@ -267,6 +273,7 @@ public class UserInterface {
         int number = readInt("Quiz number: ");
         if (number >= 1 && number <= quizCount) {
             student.takeQuiz(quizzes[number - 1], scanner);
+            pause();
         } else {
             System.out.println("Invalid quiz number.");
         }
@@ -366,14 +373,12 @@ public class UserInterface {
         String newName = readRequired("New full name: ");
         String newEmail = readEmail("New email: ");
 
-        boolean changedEmail = !newEmail.equalsIgnoreCase(currentUser.getEmail());
-        if (changedEmail && userDatabase.emailExists(newEmail)) {
-            System.out.println("Update error: This email is already registered.");
-            return;
+        try {
+            userDatabase.updateUserProfile(currentUser, newName, newEmail);
+            printSuccess("Profile updated.");
+        } catch (DuplicateEmailException e) {
+            System.out.println("Update error: " + e.getMessage());
         }
-
-        currentUser.updateProfile(newName, newEmail);
-        printSuccess("Profile updated.");
     }
 
     private String selectLearningStyle() {
@@ -398,6 +403,73 @@ public class UserInterface {
             activeLessons[i] = lessons[i];
         }
         return activeLessons;
+    }
+
+    // Available subjects lang ang pipiliin para hindi na kailangang i-type.
+    private void recommendLesson(Student student) {
+        String[] subjects = getSubjects();
+        if (subjects.length == 0) {
+            System.out.println("No lesson available.");
+            return;
+        }
+        printHeader("CHOOSE A SUBJECT");
+        for (int i = 0; i < subjects.length; i++) {
+            System.out.println((i + 1) + ". " + subjects[i]);
+        }
+        int choice = readIntInRange("Subject: ", 1, subjects.length);
+        Lesson suggested = student.recommendLessons(getActiveLessons(), subjects[choice - 1]);
+        if (suggested == null) {
+            System.out.println("No matching lesson available for this subject.");
+        } else {
+            printHeader("RECOMMENDED LESSON");
+            System.out.println("Learning style: " + student.getLearningStyle()
+                    + " | Suggested level: " + student.getSuggestedLevel());
+            System.out.println("Recommended: " + suggested.getLessonTitle());
+            suggested.displayLesson();
+        }
+        pause();
+    }
+
+    private String[] getSubjects() {
+        String[] found = new String[lessonCount];
+        int count = 0;
+        for (int i = 0; i < lessonCount; i++) {
+            String subject = lessons[i].getSubject();
+            boolean exists = false;
+            for (int j = 0; j < count; j++) {
+                if (found[j].equalsIgnoreCase(subject)) {
+                    exists = true;
+                }
+            }
+            if (!exists) {
+                found[count] = subject;
+                count++;
+            }
+        }
+        String[] result = new String[count];
+        for (int i = 0; i < count; i++) {
+            result[i] = found[i];
+        }
+        return result;
+    }
+
+    private boolean readYesNo(String prompt) {
+        while (true) {
+            String value = readRequired(prompt + " (y/n): ");
+            if (value.equalsIgnoreCase("y") || value.equalsIgnoreCase("yes")) {
+                return true;
+            }
+            if (value.equalsIgnoreCase("n") || value.equalsIgnoreCase("no")) {
+                return false;
+            }
+            System.out.println("Please enter y or n.");
+        }
+    }
+
+    // Para mabasa muna yung output bago bumalik sa menu.
+    private void pause() {
+        System.out.print("\nPress Enter to continue...");
+        scanner.nextLine();
     }
 
     private int readInt(String prompt) {
