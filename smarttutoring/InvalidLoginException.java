@@ -5,4 +5,3 @@ public class InvalidLoginException extends Exception {
         super(message);
     }
 }
-
